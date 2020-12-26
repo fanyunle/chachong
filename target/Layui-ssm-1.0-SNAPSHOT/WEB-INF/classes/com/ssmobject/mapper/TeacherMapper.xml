@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssmobject.mapper.TeacherMapper">
+
+    <select id="TeacherGetStudentUserDate" resultType="com.ssmobject.pojo.TeacherStudentDate">
+        select sid,sname,sex,school,sclass,scorecname,scoreu,scoref,scoregrade,sphone from student,score where student.sid=score.scoreid
+    </select>
+
+    <select id="TeacherGetKeyStudent" resultType="com.ssmobject.pojo.TeacherStudentDate">
+        select sid,sname,sex,school,sclass,scorecname,scoreu,scoref,scoregrade,sphone from student,score where student.sid=score.scoreid and sid=#{id}
+    </select>
+
+    <delete id="ajaxDelete" parameterType="com.ssmobject.pojo.TeacherScoreDate">
+        delete from score where scoreid=#{scoreid} and scoresname=#{scoresname} and scorecname=#{scorecname}
+    </delete>
+
+    <insert id="ajaxInsert" parameterType="com.ssmobject.pojo.TeacherScoreDate">
+        insert into score(scoreid,scoresname,scorecname,scoreu,scoref,scoregrade) values(#{scoreid},#{scoresname},#{scorecname},#{scoreu},#{scoref},#{scoregrade})
+    </insert>
+
+    <update id="ajaxUpdate" parameterType="com.ssmobject.pojo.TeacherScoreDate">
+         update score set scoreu=#{scoreu},scoref=#{scoref},scoregrade=#{scoregrade} where scoreid=#{scoreid} and scoresname=#{scoresname} and scorecname=#{scorecname}
+    </update>
+
+    <select id="TeacherGetCourseDate" resultType="com.ssmobject.pojo.TeacherCourseDate">
+        select * from course
+    </select>
+
+    <select id="TeacherGetClassDate" resultType="com.ssmobject.pojo.TeacherClassDate">
+        select * from info
+    </select>
+</mapper>

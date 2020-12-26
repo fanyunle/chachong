@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>学生管理系统</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">学生管理系统-学生端</div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    <span id="cname"></span>
+                </a>
+            </li>
+            <li class="layui-nav-item"><a href="javascript:;" onclick="SignOut()">退出用户</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item"><a href="javascript:;" onclick="change('StudentTableDateStatic')">个人信息查询</a></li>
+                <li class="layui-nav-item"><a href="javascript:;" onclick="change('ClassTableDate')">班级信息查询</a></li>
+                <li class="layui-nav-item"><a href="javascript:;" onclick="change('CourseTableDate')">课程信息查询</a></li>
+                <li class="layui-nav-item"><a href="javascript:;" onclick="changej('FileUp')">作业查重</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px">
+            <iframe src="" frameborder="0" id="demoAdmin" style="width: 100%;height: 780px"></iframe>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © aynu.com - 安阳师范学院
+    </div>
+</div>
+<script src="../layui/layui.js"></script>
+<script src="../layui/jquery.min.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+
+    });
+    function change(url){
+        $('iframe').attr('src',url+".html");
+    }
+    function changej(url){//查重
+        $('iframe').attr('src',url+".jsp");
+    }
+    $().ready(function(){
+        var customerId=sessionStorage.customerId;
+        if (customerId === undefined) {
+            window.location.replace("http://localhost:8080/index.html")
+        }else{
+            $("#cname").text(customerId);
+        }
+    });
+    function SignOut(){
+        sessionStorage.removeItem("customerId");
+        window.location.href = 'http://localhost:8080/index.html';
+    }
+</script>
+</body>
+</html>

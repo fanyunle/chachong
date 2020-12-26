@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+    <script src="../layui/jquery.min.js"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        $=layui.jquery;
+
+        //方法级渲染
+        table.render({
+            elem: '#test'   //指的是table的id
+            ,url: '/student/course'
+            ,cellMinWidth: 80
+            ,title: '用户数据表'
+            ,totalRow: true
+            ,cols: [[
+                {field:'cid', title: '序号', sort: true, fixed: true, unresize: true, totalRowText: '合计'}
+                ,{field:'cname', title: '课程'}
+                ,{field:'ctime', title: '学时',  sort: true, totalRow: true}
+                ,{field:'cscore', title: '学分',  totalRow: true}
+            ]]
+            ,id: 'testReload'
+            ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                ,groups: 1 //只显示 1 个连续页码
+                ,first: false //不显示首页
+                ,last: false //不显示尾页
+            }
+            ,limit:10
+        });
+    });
+</script>
+
+</body>
+</html>

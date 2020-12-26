@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">学号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="scoreid" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" id="scoreid" readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="scoresname" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" id="scoresname" readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">课程</label>
+        <div class="layui-input-inline">
+            <input type="text" name="scorecname" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" id="scorecname" readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">平时成绩</label>
+        <div class="layui-input-inline">
+            <input type="text" name="scoreu" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">末考成绩</label>
+        <div class="layui-input-inline">
+            <input type="text" name="scoref" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">最终成绩</label>
+        <div class="layui-input-inline">
+            <input type="text" name="scoregrade" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+        </div>
+    </div>
+</form>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['form', 'layedit'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+        $=layui.jquery;
+
+        var lineid=sessionStorage.getItem("lineid");
+        var linename=sessionStorage.getItem("linename");
+        var linecname=sessionStorage.getItem("linecname");
+        $('#scorecname').attr("value", linecname);
+        $('#scoreid').attr("value", lineid);
+        $('#scoresname').attr("value", linename);
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            layer.confirm('已修改', function (index) {
+                $.ajax({
+                    url: '/teacher/update',
+                    type: "POST",
+                    data: {
+                        scoreid: data.field.scoreid,
+                        scoresname:data.field.scoresname,
+                        scorecname:data.field.scorecname,
+                        scoreu:data.field.scoreu,
+                        scoref:data.field.scoref,
+                        scoregrade:data.field.scoregrade,
+                        code: 0
+                    },
+                    success: function (r) {
+                        if (r.code === 1) {
+                            layer.msg('提交成功',{icon:6,time: 1800},function () {
+                                parent.layer.close(index);
+                                window.parent.location.reload();
+                            });
+                        } else {
+
+                            layer.msg("修改失败", {icon: 5});
+                        }
+                    }
+                })
+            })
+            console.log(data.field);
+        });
+
+    });
+</script>
+
+</body>
+</html>
